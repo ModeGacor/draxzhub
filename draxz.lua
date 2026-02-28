@@ -2,266 +2,299 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "👾DRAXZHUB SCRIPT👾",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   Icon = 0,
    LoadingTitle = "DRAXZHUB",
    LoadingSubtitle = "by Draxz",
-   ShowText = "DraxzHub", -- for mobile users to unhide Rayfield, change if you'd like
-   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
-
-   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
-
+   ShowText = "DraxzHub",
+   Theme = "Default",
+   ToggleUIKeybind = "K",
    DisableRayfieldPrompts = false,
-  DisableBuildWarnings = false, -- ← TAMBAH KOMA DI SINI
-
-ConfigurationSaving = {
+   DisableBuildWarnings = false,
+   ConfigurationSaving = {
       Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
+      FolderName = nil,
       FileName = "Youtubedraxzoffc25"
    },
-
    Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include Discord.gg/. E.g. Discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the Discord every time they load it up
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
    },
-
-   KeySystem = false, -- Set this to true to use our key system
+   KeySystem = false,
    KeySettings = {
       Title = "Untitled",
       Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
-      FileName = "Key", -- It is recommended to use something unique, as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"Hello"} -- List of keys that the system will accept, can be RAW file links (pastebin, github, etc.) or simple strings ("hello", "key22")
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
    }
 })
 
-local MainTab = Window:CreateTab("🏠 Home", nil) -- Title, Image
-local Section = MainTab:CreateSection("Section Example")
+local MainTab = Window:CreateTab("🏠 Home", nil)
+local Section = MainTab:CreateSection("Fly Script")
 
 Rayfield:Notify({
-   Title = "Berhasil excetuce script",
+   Title = "Berhasil execute script",
    Content = "DRAXZHUB",
    Duration = 5,
-   Image = nill,
+   Image = nil,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Infinite Jump",
-   Callback = function()
-       --Toggles the infinite jump between on or off on every script run
-_G.infinjump = not _G.infinjump
-
-if _G.infinJumpStarted == nil then
-	--Ensures this only runs once to save resources
-	_G.infinJumpStarted = true
-	
-	--Notifies readiness
-	game.StarterGui:SetCore("SendNotification", {Title="Youtube Hub"; Text="Infinite Jump Activated!"; Duration=5;})
-
-	--The actual infinite jump
-	local plr = game:GetService('Players').LocalPlayer
-	local m = plr:GetMouse()
-	m.KeyDown:connect(function(k)
-		if _G.infinjump then
-			if k:byte() == 32 then
-			humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
-			humanoid:ChangeState('Jumping')
-			wait()
-			humanoid:ChangeState('Seated')
-			end
-		end
-	end)
-end
-   end,
-})
-
-local Slider = MainTab:CreateSlider({
-   Name = "WalkSpeed Slider",
-   Range = {1, 350},
-   Increment = 1,
-   Suffix = "Speed",
-   CurrentValue = 16,
-   Flag = "sliderws", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
-   end,
-})
-
-local EspTab = Window:CreateTab("💕 ESP MENU 💕", nil) -- Title, Image
-    local Section = EspTab:CreateSection("ESP MENU")
-
-local Players = game:GetService("Players"):GetChildren() 
-local RunService = game:GetService("RunService") 
-local highlight = Instance.new("Highlight") 
-highlight.Name = "Highlight" 
- 
-for i, v in pairs(Players) do 
-    repeat wait() until v.Character 
-    if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
-        local highlightClone = highlight:Clone() 
-        highlightClone.Adornee = v.Character 
-        highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") 
-        highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop 
-        highlightClone.Name = "Highlight" 
-    end 
-end 
- 
-game.Players.PlayerAdded:Connect(function(player) 
-    repeat wait() until player.Character 
-    if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
-        local highlightClone = highlight:Clone() 
-        highlightClone.Adornee = player.Character 
-        highlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart") 
-        highlightClone.Name = "Highlight" 
-    end 
-end) 
- 
-game.Players.PlayerRemoving:Connect(function(playerRemoved) 
-    playerRemoved.Character:FindFirstChild("HumanoidRootPart").Highlight:Destroy() 
-end) 
- 
-RunService.Heartbeat:Connect(function() 
-    for i, v in pairs(Players) do 
-        repeat wait() until v.Character 
-        if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then 
-            local highlightClone = highlight:Clone() 
-            highlightClone.Adornee = v.Character 
-            highlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart") 
-            highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop 
-            highlightClone.Name = "Highlight" 
-            task.wait() 
-        end 
-end 
-end)
-  
--- Advanced Lock-On Script (With Visibility Check + UI Indicator)
- 
+-- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
- 
-local LockOnEnabled = false
-local LockOnRange = 100
-local Target = nil
- 
--- GUI Setup
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "LockOnUI"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
- 
--- Toggle Button
-local toggleButton = Instance.new("TextButton")
-toggleButton.Name = "LockOnToggle"
-toggleButton.Size = UDim2.new(0, 120, 0, 40)
-toggleButton.Position = UDim2.new(1, -130, 1, -60)
-toggleButton.BackgroundColor3 = Color3.fromRGB(30, 144, 255)
-toggleButton.TextColor3 = Color3.new(1,1,1)
-toggleButton.Font = Enum.Font.SourceSansBold
-toggleButton.Text = "Lock-On: OFF"
-toggleButton.TextSize = 18
-toggleButton.Parent = screenGui
- 
--- Target Indicator (Red Box)
-local targetIndicator = Instance.new("Frame")
-targetIndicator.Name = "TargetIndicator"
-targetIndicator.Size = UDim2.new(0, 40, 0, 40)
-targetIndicator.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-targetIndicator.BorderSizePixel = 2
-targetIndicator.Visible = false
-targetIndicator.BackgroundTransparency = 0.3
-targetIndicator.AnchorPoint = Vector2.new(0.5, 0.5)
-targetIndicator.Parent = screenGui
- 
--- Function to check if a part is on screen and visible
-local function isOnScreen(part)
- local vector, onScreen = Camera:WorldToViewportPoint(part.Position)
- return onScreen and vector.Z > 0
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+local rootPart = character:FindFirstChild("HumanoidRootPart")
+
+local FLY_SPEED = 80
+local isFlying = false
+local flyConn = nil
+local bv, bg = nil, nil
+
+-- Hapus GUI lama
+if game.CoreGui:FindFirstChild("FlyGUI") then
+    game.CoreGui.FlyGUI:Destroy()
 end
- 
--- Get Closest Visible Player
-local function getClosestVisiblePlayer()
- local closestDistance = LockOnRange
- local closestCharacter = nil
- 
- for _, player in pairs(Players:GetPlayers()) do
-  if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-   local head = player.Character.Head
-   if isOnScreen(head) then
-    local myHead = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Head")
-    if myHead then
-     local distance = (head.Position - myHead.Position).Magnitude
-     if distance < closestDistance then
-      closestDistance = distance
-      closestCharacter = player.Character
-     end
+
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FlyGUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.CoreGui
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.Name = "Main"
+Main.Size = UDim2.new(0, 220, 0, 280)
+Main.Position = UDim2.new(0, 20, 0.3, 0)
+Main.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+Main.BorderSizePixel = 0
+Main.Active = true
+Main.Draggable = true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
+
+local gradient = Instance.new("UIGradient", Main)
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 35)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 18))
+})
+gradient.Rotation = 135
+
+local TitleBar = Instance.new("Frame", Main)
+TitleBar.Size = UDim2.new(1, 0, 0, 40)
+TitleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+TitleBar.BorderSizePixel = 0
+Instance.new("UICorner", TitleBar).CornerRadius = UDim.new(0, 12)
+
+local TitleFix = Instance.new("Frame", TitleBar)
+TitleFix.Size = UDim2.new(1, 0, 0.5, 0)
+TitleFix.Position = UDim2.new(0, 0, 0.5, 0)
+TitleFix.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+TitleFix.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel", TitleBar)
+Title.Size = UDim2.new(1, -10, 1, 0)
+Title.Position = UDim2.new(0, 10, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "✈️  FLY SCRIPT"
+Title.TextColor3 = Color3.fromRGB(120, 180, 255)
+Title.TextScaled = true
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local CloseBtn = Instance.new("TextButton", TitleBar)
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -35, 0.5, -15)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+CloseBtn.Text = "✕"
+CloseBtn.TextColor3 = Color3.white
+CloseBtn.TextScaled = true
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.BorderSizePixel = 0
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+local StatusLabel = Instance.new("TextLabel", Main)
+StatusLabel.Size = UDim2.new(1, -20, 0, 30)
+StatusLabel.Position = UDim2.new(0, 10, 0, 50)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Text = "Status: OFF"
+StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+StatusLabel.TextScaled = true
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local FlyBtn = Instance.new("TextButton", Main)
+FlyBtn.Size = UDim2.new(1, -20, 0, 45)
+FlyBtn.Position = UDim2.new(0, 10, 0, 90)
+FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 70)
+FlyBtn.Text = "▶  ENABLE FLY"
+FlyBtn.TextColor3 = Color3.fromRGB(120, 200, 120)
+FlyBtn.TextScaled = true
+FlyBtn.Font = Enum.Font.GothamBold
+FlyBtn.BorderSizePixel = 0
+Instance.new("UICorner", FlyBtn).CornerRadius = UDim.new(0, 8)
+
+local SpeedLabel = Instance.new("TextLabel", Main)
+SpeedLabel.Size = UDim2.new(1, -20, 0, 25)
+SpeedLabel.Position = UDim2.new(0, 10, 0, 148)
+SpeedLabel.BackgroundTransparency = 1
+SpeedLabel.Text = "Speed: 80"
+SpeedLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+SpeedLabel.TextScaled = true
+SpeedLabel.Font = Enum.Font.Gotham
+SpeedLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local SliderBg = Instance.new("Frame", Main)
+SliderBg.Size = UDim2.new(1, -20, 0, 16)
+SliderBg.Position = UDim2.new(0, 10, 0, 178)
+SliderBg.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+SliderBg.BorderSizePixel = 0
+Instance.new("UICorner", SliderBg).CornerRadius = UDim.new(0, 8)
+
+local SliderFill = Instance.new("Frame", SliderBg)
+SliderFill.Size = UDim2.new(0.4, 0, 1, 0)
+SliderFill.BackgroundColor3 = Color3.fromRGB(100, 150, 255)
+SliderFill.BorderSizePixel = 0
+Instance.new("UICorner", SliderFill).CornerRadius = UDim.new(0, 8)
+
+local Knob = Instance.new("Frame", SliderBg)
+Knob.Size = UDim2.new(0, 18, 0, 18)
+Knob.Position = UDim2.new(0.4, -9, 0.5, -9)
+Knob.BackgroundColor3 = Color3.white
+Knob.BorderSizePixel = 0
+Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
+
+local dragging = false
+Knob.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
     end
-   end
-  end
- end
- 
- return closestCharacter
-end
- 
--- Toggle Button Functionality
-toggleButton.MouseButton1Click:Connect(function()
- LockOnEnabled = not LockOnEnabled
- toggleButton.Text = "Lock-On: " .. (LockOnEnabled and "ON" or "OFF")
- if LockOnEnabled then
-  Target = getClosestVisiblePlayer()
- else
-  Target = nil
-  targetIndicator.Visible = false
- end
 end)
- 
--- Main Lock-On Loop
-RunService.RenderStepped:Connect(function()
- if LockOnEnabled then
-  if not Target or not Target:FindFirstChild("Head") or not isOnScreen(Target.Head) then
-   Target = getClosestVisiblePlayer()
-   if not Target then
-    targetIndicator.Visible = false
-    return
-   end
-  end
- 
-  -- Rotate camera to face the target's head
-  local headPos = Target.Head.Position
-  local camPos = Camera.CFrame.Position
-  Camera.CFrame = CFrame.new(camPos, headPos)
- 
-  -- UI Indicator positioning
-  local screenPos, onScreen = Camera:WorldToViewportPoint(Target.Head.Position)
-  if onScreen then
-   targetIndicator.Visible = true
-   targetIndicator.Position = UDim2.new(0, screenPos.X, 0, screenPos.Y)
-  else
-   targetIndicator.Visible = false
-  end
- else
-  targetIndicator.Visible = false
- end
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local sliderPos = SliderBg.AbsolutePosition.X
+        local sliderWidth = SliderBg.AbsoluteSize.X
+        local mouseX = input.Position.X
+        local percent = math.clamp((mouseX - sliderPos) / sliderWidth, 0, 1)
+        SliderFill.Size = UDim2.new(percent, 0, 1, 0)
+        Knob.Position = UDim2.new(percent, -9, 0.5, -9)
+        FLY_SPEED = math.floor(20 + (percent * 180))
+        SpeedLabel.Text = "Speed: " .. FLY_SPEED
+    end
 end)
 
-local player = game:GetService("Players").LocalPlayer
-local character = player:WaitForChild("Character")
+local KeyLabel = Instance.new("TextLabel", Main)
+KeyLabel.Size = UDim2.new(1, -20, 0, 25)
+KeyLabel.Position = UDim2.new(0, 10, 0, 205)
+KeyLabel.BackgroundTransparency = 1
+KeyLabel.Text = "Keyboard: [ F ] to toggle"
+KeyLabel.TextColor3 = Color3.fromRGB(120, 120, 150)
+KeyLabel.TextScaled = true
+KeyLabel.Font = Enum.Font.Gotham
+KeyLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-local Tool = script.Parent
+local ControlLabel = Instance.new("TextLabel", Main)
+ControlLabel.Size = UDim2.new(1, -20, 0, 50)
+ControlLabel.Position = UDim2.new(0, 10, 0, 225)
+ControlLabel.BackgroundTransparency = 1
+ControlLabel.Text = "WASD = Gerak  |  Space = Naik\nCtrl = Turun"
+ControlLabel.TextColor3 = Color3.fromRGB(100, 100, 130)
+ControlLabel.TextScaled = true
+ControlLabel.Font = Enum.Font.Gotham
 
-local equipped
-Tool.Equipped:Connect(function()
-    equipped = true
- if character then
-        while equipped == true do
-            character.Humanoid.Health = 100
+-- Fly Functions
+local function Fly()
+    character = player.Character
+    humanoid = character:FindFirstChildOfClass("Humanoid")
+    rootPart = character:FindFirstChild("HumanoidRootPart")
+
+    isFlying = true
+    humanoid.PlatformStand = true
+
+    bv = Instance.new("BodyVelocity", rootPart)
+    bv.Velocity = Vector3.new(0, 0, 0)
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+
+    bg = Instance.new("BodyGyro", rootPart)
+    bg.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+    bg.P = 9000
+
+    flyConn = RunService.Heartbeat:Connect(function()
+        local cam = workspace.CurrentCamera
+        local dir = Vector3.new(0, 0, 0)
+
+        -- FIX: ganti += jadi = ... + ...
+        if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+            dir = dir + cam.CFrame.LookVector
         end
- end
+        if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+            dir = dir - cam.CFrame.LookVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+            dir = dir - cam.CFrame.RightVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+            dir = dir + cam.CFrame.RightVector
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+            dir = dir + Vector3.new(0, 1, 0)
+        end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+            dir = dir - Vector3.new(0, 1, 0)
+        end
+
+        if dir.Magnitude > 0 then
+            bv.Velocity = dir.Unit * FLY_SPEED
+        else
+            bv.Velocity = Vector3.new(0, 0, 0)
+        end
+        bg.CFrame = cam.CFrame
+    end)
+
+    FlyBtn.Text = "⏹  DISABLE FLY"
+    FlyBtn.BackgroundColor3 = Color3.fromRGB(50, 80, 50)
+    FlyBtn.TextColor3 = Color3.fromRGB(100, 255, 100)
+    StatusLabel.Text = "Status: ON ✅"
+    StatusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+end
+
+local function UnFly()
+    isFlying = false
+    if humanoid then humanoid.PlatformStand = false end
+    if flyConn then flyConn:Disconnect() end
+    if bv then bv:Destroy() end
+    if bg then bg:Destroy() end
+    bv, bg, flyConn = nil, nil, nil
+
+    FlyBtn.Text = "▶  ENABLE FLY"
+    FlyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 70)
+    FlyBtn.TextColor3 = Color3.fromRGB(120, 200, 120)
+    StatusLabel.Text = "Status: OFF"
+    StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+end
+
+FlyBtn.MouseButton1Click:Connect(function()
+    if isFlying then UnFly() else Fly() end
 end)
 
-Tool.Unequipped:Connect(function()
-    equipped = false
+UserInputService.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if input.KeyCode == Enum.KeyCode.F then
+        if isFlying then UnFly() else Fly() end
+    end
 end)
+
+print("✈️ Fly GUI loaded!")
