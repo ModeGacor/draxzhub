@@ -48,7 +48,7 @@ Rayfield:Notify({
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Infinite Jump Toggle",
+   Name = "Infinite Jump",
    Callback = function()
        --Toggles the infinite jump between on or off on every script run
 _G.infinjump = not _G.infinjump
@@ -89,26 +89,8 @@ local Slider = MainTab:CreateSlider({
    end,
 })
 
-local Slider = MainTab:CreateSlider({
-   Name = "JumpPower Slider",
-   Range = {1, 350},
-   Increment = 1,
-   Suffix = "Speed",
-   CurrentValue = 16,
-   Flag = "sliderjp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
-   end,
-})
-
-local Input = MainTab:CreateInput({
-   Name = "Walkspeed",
-   PlaceholderText = "1-500",
-   RemoveTextAfterFocusLost = true,
-   Callback = function(Text)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Text)
-   end,
-})
+local EspTab = Window:CreateTab("💕 ESP MENU 💕", nil) -- Title, Image
+    local Section = EspTab:CreateSection("ESP MENU")
 
 local Players = game:GetService("Players"):GetChildren() 
 local RunService = game:GetService("RunService") 
@@ -152,4 +134,134 @@ RunService.Heartbeat:Connect(function()
             task.wait() 
         end 
 end 
+end)
+  
+-- Advanced Lock-On Script (With Visibility Check + UI Indicator)
+ 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+ 
+local LockOnEnabled = false
+local LockOnRange = 100
+local Target = nil
+ 
+-- GUI Setup
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "LockOnUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ 
+-- Toggle Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Name = "LockOnToggle"
+toggleButton.Size = UDim2.new(0, 120, 0, 40)
+toggleButton.Position = UDim2.new(1, -130, 1, -60)
+toggleButton.BackgroundColor3 = Color3.fromRGB(30, 144, 255)
+toggleButton.TextColor3 = Color3.new(1,1,1)
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.Text = "Lock-On: OFF"
+toggleButton.TextSize = 18
+toggleButton.Parent = screenGui
+ 
+-- Target Indicator (Red Box)
+local targetIndicator = Instance.new("Frame")
+targetIndicator.Name = "TargetIndicator"
+targetIndicator.Size = UDim2.new(0, 40, 0, 40)
+targetIndicator.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+targetIndicator.BorderSizePixel = 2
+targetIndicator.Visible = false
+targetIndicator.BackgroundTransparency = 0.3
+targetIndicator.AnchorPoint = Vector2.new(0.5, 0.5)
+targetIndicator.Parent = screenGui
+ 
+-- Function to check if a part is on screen and visible
+local function isOnScreen(part)
+ local vector, onScreen = Camera:WorldToViewportPoint(part.Position)
+ return onScreen and vector.Z > 0
+end
+ 
+-- Get Closest Visible Player
+local function getClosestVisiblePlayer()
+ local closestDistance = LockOnRange
+ local closestCharacter = nil
+ 
+ for _, player in pairs(Players:GetPlayers()) do
+  if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
+   local head = player.Character.Head
+   if isOnScreen(head) then
+    local myHead = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Head")
+    if myHead then
+     local distance = (head.Position - myHead.Position).Magnitude
+     if distance < closestDistance then
+      closestDistance = distance
+      closestCharacter = player.Character
+     end
+    end
+   end
+  end
+ end
+ 
+ return closestCharacter
+end
+ 
+-- Toggle Button Functionality
+toggleButton.MouseButton1Click:Connect(function()
+ LockOnEnabled = not LockOnEnabled
+ toggleButton.Text = "Lock-On: " .. (LockOnEnabled and "ON" or "OFF")
+ if LockOnEnabled then
+  Target = getClosestVisiblePlayer()
+ else
+  Target = nil
+  targetIndicator.Visible = false
+ end
+end)
+ 
+-- Main Lock-On Loop
+RunService.RenderStepped:Connect(function()
+ if LockOnEnabled then
+  if not Target or not Target:FindFirstChild("Head") or not isOnScreen(Target.Head) then
+   Target = getClosestVisiblePlayer()
+   if not Target then
+    targetIndicator.Visible = false
+    return
+   end
+  end
+ 
+  -- Rotate camera to face the target's head
+  local headPos = Target.Head.Position
+  local camPos = Camera.CFrame.Position
+  Camera.CFrame = CFrame.new(camPos, headPos)
+ 
+  -- UI Indicator positioning
+  local screenPos, onScreen = Camera:WorldToViewportPoint(Target.Head.Position)
+  if onScreen then
+   targetIndicator.Visible = true
+   targetIndicator.Position = UDim2.new(0, screenPos.X, 0, screenPos.Y)
+  else
+   targetIndicator.Visible = false
+  end
+ else
+  targetIndicator.Visible = false
+ end
+end)
+
+local player = game:GetService("Players").LocalPlayer
+local character = player:WaitForChild("Character")
+
+local Tool = script.Parent
+
+local equipped
+Tool.Equipped:Connect(function()
+    equipped = true
+ if character then
+        while equipped == true do
+            character.Humanoid.Health = 100
+        end
+ end
+end)
+
+Tool.Unequipped:Connect(function()
+    equipped = false
 end)
